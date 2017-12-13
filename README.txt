@@ -1,4 +1,4 @@
-Project 2 TeamV
+Project 3 "JECK'
 Contributors:
      Kurt Granborg
      Eli Simmonds
