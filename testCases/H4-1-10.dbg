@@ -1,0 +1,128 @@
+Input file: testCases/H4-1-10.ss
+   1: ;; Homework 4 Part 1 Step 10
+   2: 
+   3: ;; This function will return the multiplicative reciprocal of a non-zero
+   4: ;; numeric input value
+   5: 
+   6: (define (reciprocal n)
+	LPAREN_T        (
+	DEFINE_T        define
+	LPAREN_T        (
+	IDENT_T         reciprocal
+	IDENT_T         n
+	RPAREN_T        )
+   7:         (if (and (number? n) (not (= n 0)))
+	LPAREN_T        (
+	IF_T            if
+	LPAREN_T        (
+	AND_T           and
+	LPAREN_T        (
+	NUMBERP_T       number?
+	IDENT_T         n
+	RPAREN_T        )
+	LPAREN_T        (
+	NOT_T           not
+	LPAREN_T        (
+	EQUALTO_T       =
+	IDENT_T         n
+	NUMLIT_T        0
+	RPAREN_T        )
+	RPAREN_T        )
+	RPAREN_T        )
+   8:                 (/ 1 n)
+	LPAREN_T        (
+	DIV_T           /
+	NUMLIT_T        1
+	IDENT_T         n
+	RPAREN_T        )
+   9:                 'invalid_parameter
+	QUOTE_T         '
+	IDENT_T         invalid_parameter
+  10:         )
+	RPAREN_T        )
+  11: )
+	RPAREN_T        )
+  12: 
+  13: (define (main)
+	LPAREN_T        (
+	DEFINE_T        define
+	LPAREN_T        (
+	IDENT_T         main
+	RPAREN_T        )
+  14: 	(display (reciprocal 7)) (newline)
+	LPAREN_T        (
+	DISPLAY_T       display
+	LPAREN_T        (
+	IDENT_T         reciprocal
+	NUMLIT_T        7
+	RPAREN_T        )
+	RPAREN_T        )
+	LPAREN_T        (
+	NEWLINE_T       newline
+	RPAREN_T        )
+  15: 	(display (reciprocal (/ 1 7))) (newline)
+	LPAREN_T        (
+	DISPLAY_T       display
+	LPAREN_T        (
+	IDENT_T         reciprocal
+	LPAREN_T        (
+	DIV_T           /
+	NUMLIT_T        1
+	NUMLIT_T        7
+	RPAREN_T        )
+	RPAREN_T        )
+	RPAREN_T        )
+	LPAREN_T        (
+	NEWLINE_T       newline
+	RPAREN_T        )
+  16: 	(display (reciprocal .7)) (newline)
+	LPAREN_T        (
+	DISPLAY_T       display
+	LPAREN_T        (
+	IDENT_T         reciprocal
+	NUMLIT_T        .7
+	RPAREN_T        )
+	RPAREN_T        )
+	LPAREN_T        (
+	NEWLINE_T       newline
+	RPAREN_T        )
+  17: 	(display (reciprocal 7.7)) (newline)
+	LPAREN_T        (
+	DISPLAY_T       display
+	LPAREN_T        (
+	IDENT_T         reciprocal
+	NUMLIT_T        7.7
+	RPAREN_T        )
+	RPAREN_T        )
+	LPAREN_T        (
+	NEWLINE_T       newline
+	RPAREN_T        )
+  18: 	(display (reciprocal (/ 50 7))) (newline)
+	LPAREN_T        (
+	DISPLAY_T       display
+	LPAREN_T        (
+	IDENT_T         reciprocal
+	LPAREN_T        (
+	DIV_T           /
+	NUMLIT_T        50
+	NUMLIT_T        7
+	RPAREN_T        )
+	RPAREN_T        )
+	RPAREN_T        )
+	LPAREN_T        (
+	NEWLINE_T       newline
+	RPAREN_T        )
+  19: 	(display (reciprocal "Hello World")) (newline)
+	LPAREN_T        (
+	DISPLAY_T       display
+	LPAREN_T        (
+	IDENT_T         reciprocal
+	STRLIT_T        "Hello World"
+	RPAREN_T        )
+	RPAREN_T        )
+	LPAREN_T        (
+	NEWLINE_T       newline
+	RPAREN_T        )
+  20: )
+	RPAREN_T        )
+0 errors found in input file

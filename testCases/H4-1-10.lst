@@ -1,0 +1,22 @@
+Input file: testCases/H4-1-10.ss
+   1: ;; Homework 4 Part 1 Step 10
+   2: 
+   3: ;; This function will return the multiplicative reciprocal of a non-zero
+   4: ;; numeric input value
+   5: 
+   6: (define (reciprocal n)
+   7:         (if (and (number? n) (not (= n 0)))
+   8:                 (/ 1 n)
+   9:                 'invalid_parameter
+  10:         )
+  11: )
+  12: 
+  13: (define (main)
+  14: 	(display (reciprocal 7)) (newline)
+  15: 	(display (reciprocal (/ 1 7))) (newline)
+  16: 	(display (reciprocal .7)) (newline)
+  17: 	(display (reciprocal 7.7)) (newline)
+  18: 	(display (reciprocal (/ 50 7))) (newline)
+  19: 	(display (reciprocal "Hello World")) (newline)
+  20: )
+0 errors found in input file

@@ -1,0 +1,119 @@
+Input file: testCases/H4-1-11.ss
+   1: ;; Homework 4 Part 1 Step 11
+   2: 
+   3: ;; square will return the square of a numeric input value
+   4: (define (square n f d))
+	LPAREN_T        (
+	DEFINE_T        define
+	LPAREN_T        (
+	IDENT_T         square
+	IDENT_T         n
+	IDENT_T         f
+	IDENT_T         d
+	RPAREN_T        )
+	RPAREN_T        )
+Error at 4,23: Expeciting a first for Literal; saw)
+   5:         (if (number? n)
+	LPAREN_T        (
+	IF_T            if
+	LPAREN_T        (
+	NUMBERP_T       number?
+	IDENT_T         n
+	RPAREN_T        )
+   6: 		(* n n)
+	LPAREN_T        (
+	MULT_T          *
+	IDENT_T         n
+	IDENT_T         n
+	RPAREN_T        )
+   7:                 'invalid_parameter
+	QUOTE_T         '
+	IDENT_T         invalid_parameter
+   8:         )
+	RPAREN_T        )
+   9: )
+	RPAREN_T        )
+  10: 
+  11: (define (main)
+	LPAREN_T        (
+	DEFINE_T        define
+	LPAREN_T        (
+	IDENT_T         main
+	RPAREN_T        )
+  12: 	(display (square 7)) (newline)
+	LPAREN_T        (
+	DISPLAY_T       display
+	LPAREN_T        (
+	IDENT_T         square
+	NUMLIT_T        7
+	RPAREN_T        )
+	RPAREN_T        )
+	LPAREN_T        (
+	NEWLINE_T       newline
+	RPAREN_T        )
+  13: 	(display (square (/ 1 7))) (newline)
+	LPAREN_T        (
+	DISPLAY_T       display
+	LPAREN_T        (
+	IDENT_T         square
+	LPAREN_T        (
+	DIV_T           /
+	NUMLIT_T        1
+	NUMLIT_T        7
+	RPAREN_T        )
+	RPAREN_T        )
+	RPAREN_T        )
+	LPAREN_T        (
+	NEWLINE_T       newline
+	RPAREN_T        )
+  14: 	(display (square .7)) (newline)
+	LPAREN_T        (
+	DISPLAY_T       display
+	LPAREN_T        (
+	IDENT_T         square
+	NUMLIT_T        .7
+	RPAREN_T        )
+	RPAREN_T        )
+	LPAREN_T        (
+	NEWLINE_T       newline
+	RPAREN_T        )
+  15: 	(display (square 7.7)) (newline)
+	LPAREN_T        (
+	DISPLAY_T       display
+	LPAREN_T        (
+	IDENT_T         square
+	NUMLIT_T        7.7
+	RPAREN_T        )
+	RPAREN_T        )
+	LPAREN_T        (
+	NEWLINE_T       newline
+	RPAREN_T        )
+  16: 	(display (square (/ 50 7))) (newline)
+	LPAREN_T        (
+	DISPLAY_T       display
+	LPAREN_T        (
+	IDENT_T         square
+	LPAREN_T        (
+	DIV_T           /
+	NUMLIT_T        50
+	NUMLIT_T        7
+	RPAREN_T        )
+	RPAREN_T        )
+	RPAREN_T        )
+	LPAREN_T        (
+	NEWLINE_T       newline
+	RPAREN_T        )
+  17: 	(display (square "Hello World")) (newline)
+	LPAREN_T        (
+	DISPLAY_T       display
+	LPAREN_T        (
+	IDENT_T         square
+	STRLIT_T        "Hello World"
+	RPAREN_T        )
+	RPAREN_T        )
+	LPAREN_T        (
+	NEWLINE_T       newline
+	RPAREN_T        )
+  18: )
+	RPAREN_T        )
+1 errors found in input file

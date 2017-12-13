@@ -1,0 +1,21 @@
+Input file: testCases/H4-1-11.ss
+   1: ;; Homework 4 Part 1 Step 11
+   2: 
+   3: ;; square will return the square of a numeric input value
+   4: (define (square n f d))
+Error at 4,23: Expeciting a first for Literal; saw)
+   5:         (if (number? n)
+   6: 		(* n n)
+   7:                 'invalid_parameter
+   8:         )
+   9: )
+  10: 
+  11: (define (main)
+  12: 	(display (square 7)) (newline)
+  13: 	(display (square (/ 1 7))) (newline)
+  14: 	(display (square .7)) (newline)
+  15: 	(display (square 7.7)) (newline)
+  16: 	(display (square (/ 50 7))) (newline)
+  17: 	(display (square "Hello World")) (newline)
+  18: )
+1 errors found in input file
