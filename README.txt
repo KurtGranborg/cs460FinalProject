@@ -1,7 +1,8 @@
 Project 2 TeamV
 Contributors:
      Kurt Granborg
-     Brooke Gardner
+     Eli Simmonds
+     Charlie Moore
      John Eggers
 Status:
-     All requirements should be met and properly working.
+     FUBAR
