@@ -4,26 +4,22 @@
 #include "Object.h"
 using namespace std;
 
-Object reciprocal (n)
+Object reciprocal (Object n)
 {
-(	if (((n numberp ) && ((n == )!) && ))
-	{
-(n / )
-	}
-);
+((((n numberp ) && ((n == )!) && ))?((n / )):);
 }
 int main ()
 {
-(cout << (););
+(cout << ());
 (cout << endl);
-(cout << (()reciprocal););
+(cout << (()));
 (cout << endl);
-(cout << (););
+(cout << ());
 (cout << endl);
-(cout << (););
+(cout << ());
 (cout << endl);
-(cout << (()reciprocal););
+(cout << (()));
 (cout << endl);
-(cout << (););
+(cout << ());
 (cout << endl);
 }

@@ -17,18 +17,20 @@ CodeGenerator.o : CodeGenerator.h CodeGenerator.cpp LexicalAnalyzer.h
 	g++ -g -c CodeGenerator.cpp
 
 clean :
-	rm *.o P2.out *.gch
+	rm *.o P3.out *.gch
 
+run :
+	make; ./P3.out testCases/H4-1-10.ss; more testCases/H4-1-10.cpp
 
-submit : Project2.cpp LexicalAnalyzer.h LexicalAnalyzer.cpp SyntacticalAnalyzer.h SyntacticalAnalyzer.cpp makefile README.txt
-	rm -rf TeamVP2
-	mkdir TeamVP2
-	cp Project2.cpp TeamVP2
-	cp LexicalAnalyzer.h TeamVP2
-	cp LexicalAnalyzer.cpp TeamVP2
-	cp SyntacticalAnalyzer.h TeamVP2
-	cp SyntacticalAnalyzer.cpp TeamVP2
-	cp makefile TeamVP2
-	cp README.txt TeamVP2
-	tar cfvz TeamVP2.tgz TeamVP2
-	cp TeamVP2.tgz ~tiawatts/cs460drop
+submit : Project3.cpp LexicalAnalyzer.h LexicalAnalyzer.cpp SyntacticalAnalyzer.h SyntacticalAnalyzer.cpp makefile README.txt
+	rm -rf TeamJeckP3
+	mkdir TeamJeckP3
+	cp Project3.cpp TeamJeckP3
+	cp LexicalAnalyzer.h TeamJeckP3
+	cp LexicalAnalyzer.cpp TeamJeckP3
+	cp SyntacticalAnalyzer.h TeamJeckP3
+	cp SyntacticalAnalyzer.cpp TeamJeckP3
+	cp makefile TeamJeckP3
+	cp README.txt TeamJeckP3
+	tar cfvz TeamVP2.tgz TeamJeckP3
+	#cp TeamVP2.tgz ~tiawatts/cs460drop

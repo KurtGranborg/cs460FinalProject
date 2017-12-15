@@ -1,8 +1,3 @@
-;; Homework 4 Part 1 Step 10
-
-;; This function will return the multiplicative reciprocal of a non-zero
-;; numeric input value
-
 (define (reciprocal n)
         (if (and (number? n) (not (= n 0)))
                 (/ 1 n)

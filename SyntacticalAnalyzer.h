@@ -32,7 +32,7 @@ class SyntacticalAnalyzer
 	int Action();
 	int Any_Other_Token();
 	int Else_Part();
-	int Literal();
+	int Literal(); 
 	int More_Defines();
 	int More_Pairs();
 	int More_Tokens();
@@ -42,7 +42,7 @@ class SyntacticalAnalyzer
 	int Stmt_List(string);
 	int Stmt_Pair();
 	int Stmt_Pair_Body();
-	
+	int tabs = 0;
 };
 	
 #endif

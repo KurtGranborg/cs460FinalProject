@@ -1,8 +1,7 @@
 
 /*******************************************************************************
 * Assignment: Project 1 - Syntactic Analyzer for Scheme to C++ Translator      *
-* Authors: Kurt Granborg, Eli Simmonds, Charlie Moore                          *
-* Based on Project 2 code by: Team V-Brooke Gardner, Kurt Granborg, John Eggers*
+* Author: Team V -Brooke Gardner, Kurt Granborg, John Eggers                   *
 * Date: Fall 2017                                                              *
 * File: Syntactical Analyzer.cpp                                               *
 *                                                                              *
@@ -14,14 +13,12 @@
 #include <iostream>
 #include <iomanip>
 #include <fstream>
-#include <string>
 #include "SyntacticalAnalyzer.h"
-#include "CodeGenerator.h"
 
 using namespace std;
 
 /*******************************************************************************
-* Function: Defualt constructor 					       *
+* Function: Defualt constructor 																							 *
 *                                                                              *
 * Parameters: filename for input and output                                    *
 * Return value: None                                                           *
@@ -31,9 +28,8 @@ using namespace std;
 SyntacticalAnalyzer::SyntacticalAnalyzer (char * filename)
 {
 	lex = new LexicalAnalyzer (filename);
-       	string name = filename;
+	string name = filename;
 	string p2name = name.substr (0, name.length()-3) + ".p2";
-	gen = new CodeGen ( name, lex);
 	p2file.open (p2name.c_str());
 	token = lex->GetToken();
 	Program ();
@@ -49,7 +45,6 @@ SyntacticalAnalyzer::SyntacticalAnalyzer (char * filename)
 SyntacticalAnalyzer::~SyntacticalAnalyzer ()
 {
 	delete lex;
-	delete gen;
 	p2file.close ();
 }
 
@@ -105,7 +100,7 @@ int SyntacticalAnalyzer::Define(){
 	p2file << "Using Rule 2" << endl;
 
 	int errors = 0;
-	cout << "HERE" << endl;
+
 	//follow define recipe
 	if(token == LPAREN_T){
 		token = lex->GetToken();
@@ -137,10 +132,6 @@ int SyntacticalAnalyzer::Define(){
 	}
 
 	if(token == IDENT_T){
-		if (lex->GetLexeme() == "main")
-		  gen->WriteCode(tabs++, "int main (");
-		else
-		  gen->WriteCode(0, "Object " + lex->GetLexeme() + " (");
 		token = lex->GetToken();
 	}
 	else{
@@ -150,8 +141,8 @@ int SyntacticalAnalyzer::Define(){
 	}
 
 	//call grammar rules for <param_list>
-	errors += Param_List(false);
-	gen->WriteCode(0, ")\n{\n");
+	errors += Param_List();
+
 	if(token == RPAREN_T){
 		token = lex->GetToken();
 	}
@@ -162,12 +153,11 @@ int SyntacticalAnalyzer::Define(){
 	}
 
 	//call grammar rules for <stmt> and <stmt_list>
-	errors += Stmt(";\n");
-	errors += Stmt_List(";\n");
+	errors += Stmt();
+	errors += Stmt_List();
 
 	if(token == RPAREN_T){
 		token = lex->GetToken();
-		gen->WriteCode(0, "}\n");
 	}
 	else{
 		errors++;
@@ -177,7 +167,6 @@ int SyntacticalAnalyzer::Define(){
 
 	p2file << "Exiting Define function; current token is: "
 	<< lex->GetTokenName(token) << endl;
-	tabs--; 
 	return errors;
 }
 
@@ -201,11 +190,8 @@ int SyntacticalAnalyzer::Action(){
 	if(token == IF_T){
 		p2file << "Using Rule 26" << endl;
 		token = lex->GetToken();
-		gen->WriteCode(0, "(");
-		errors += Stmt("");
-		gen->WriteCode(0, ")?(");
-		errors += Stmt("");
-		gen->WriteCode(0, "):");
+		errors += Stmt();
+		errors += Stmt();
 		errors += Else_Part();
 	}
 	else if(token == COND_T){
@@ -216,129 +202,125 @@ int SyntacticalAnalyzer::Action(){
 	}
 	else if(token == LISTOP_T){
 		p2file << "Using Rule 28" << endl;
-		string symbol = lex->GetLexeme();
 		token = lex->GetToken();
-		errors += Stmt(symbol);
+		errors += Stmt();
 	}
 	else if(token == CONS_T){
 		p2file << "Using Rule 29" << endl;
 		token = lex->GetToken();
-		errors += Stmt("cons");
-		errors += Stmt("");
+		errors += Stmt();
+		errors += Stmt();
 	}
 	else if(token == AND_T){
 		p2file << "Using Rule 30" << endl;
 		token = lex->GetToken();
-		errors += Stmt_List(" && ");
+		errors += Stmt_List();
 	}
 	else if(token == OR_T){
 		p2file << "Using Rule 31" << endl;
 		token = lex->GetToken();
-		errors += Stmt_List(" || ");
+		errors += Stmt_List();
 	}
 	else if(token == NOT_T){
 		p2file << "Using Rule 32" << endl;
 		token = lex->GetToken();
-		errors += Stmt("!");
+		errors += Stmt();
 	}
 	else if(token == NUMBERP_T){
 		p2file << "Using Rule 33" << endl;
 		token = lex->GetToken();
-		errors += Stmt(" numberp ");
+		errors += Stmt();
 	}
 	else if(token == SYMBOLP_T){
 		p2file << "Using Rule 34" << endl;
 		token = lex->GetToken();
-		errors += Stmt(" symbolp ");
+		errors += Stmt();
 	}
 	else if(token == LISTP_T){
 		p2file << "Using Rule 35" << endl;
 		token = lex->GetToken();
-		errors += Stmt(" listp ");
+		errors += Stmt();
 	}
 	else if(token == ZEROP_T){
 		p2file << "Using Rule 36" << endl;
 		token = lex->GetToken();
-		errors += Stmt(" zerop ");
+		errors += Stmt();
 	}
 	else if(token == NULLP_T){
 		p2file << "Using Rule 37" << endl;
 		token = lex->GetToken();
-		errors += Stmt(" nullp ");
+		errors += Stmt();
 	}
 	else if(token == STRINGP_T){
 		p2file << "Using Rule 38" << endl;
 		token = lex->GetToken();
-		errors += Stmt(" stringp ");
+		errors += Stmt();
 	}
 	else if(token == PLUS_T){
 		p2file << "Using Rule 39" << endl;
 		token = lex->GetToken();
-		errors += Stmt_List(" + ");
+		errors += Stmt_List();
 	}
 	else if(token == MINUS_T){
 		p2file << "Using Rule 40" << endl;
 		token = lex->GetToken();
-		errors += Stmt(" - ");
-		errors += Stmt_List(" - ");
+		errors += Stmt();
+		errors += Stmt_List();
 	}
 	else if(token == DIV_T){
 		p2file << "Using Rule 41" << endl;
 		token = lex->GetToken();
-		errors += Stmt(" / ");
-		errors += Stmt_List(" / ");
+		errors += Stmt();
+		errors += Stmt_List();
 	}
 	else if(token == MULT_T){
 		p2file << "Using Rule 42" << endl;
 		token = lex->GetToken();
-		errors += Stmt_List(" * ");
+		errors += Stmt_List();
 	}
 	else if(token == MODULO_T){
 		p2file << "Using Rule 43" << endl;
 		token = lex->GetToken();
-		errors += Stmt(" % ");
-		errors += Stmt(" % ");
+		errors += Stmt();
+		errors += Stmt();
 	}
 	else if(token == EQUALTO_T){
 		p2file << "Using Rule 44" << endl;
 		token = lex->GetToken();
-		errors += Stmt_List( " == ");
+		errors += Stmt_List();
 	}
 	else if(token == GT_T){
 		p2file << "Using Rule 45" << endl;
 		token = lex->GetToken();
-		errors += Stmt_List(" > ");
+		errors += Stmt_List();
 	}
 	else if(token == LT_T){
 		p2file << "Using Rule 46" << endl;
 		token = lex->GetToken();
-		errors += Stmt_List( " < ");
+		errors += Stmt_List();
 	}
 	else if(token == GTE_T){
 		p2file << "Using Rule 47" << endl;
 		token = lex->GetToken();
-		errors += Stmt_List(" >= ");
+		errors += Stmt_List();
 	}
 	else if(token == LTE_T){
 		p2file << "Using Rule 48" << endl;
 		token = lex->GetToken();
-		errors += Stmt_List( " <= ");
+		errors += Stmt_List();
 	}
 	else if(token == IDENT_T){
 		p2file << "Using Rule 49" << endl;
-		string symbol = lex->GetLexeme();
 		token = lex->GetToken();
-		errors += Stmt_List("");
+		errors += Stmt_List();
 	}
 	else if(token == DISPLAY_T){
 		p2file << "Using Rule 50" << endl;
 		token = lex->GetToken();
-		gen->WriteCode(0, "cout << ");
-		errors += Stmt("");
+		errors += Stmt();
 	}
 	else if(token == NEWLINE_T){
 		p2file << "Using Rule 51" << endl;
-		gen->WriteCode(0, "cout << endl");
 		token = lex->GetToken();
 	}
 	else{
@@ -533,7 +515,7 @@ int SyntacticalAnalyzer::Else_Part(){
         	|| token == QUOTE_T)
 	{
         	p2file << "Using Rule 18" << endl;
-	        errors += Stmt("");
+	        errors += Stmt();
     	}
     	else if(token == RPAREN_T){
         	p2file << "Using Rule 19" << endl;
@@ -721,20 +703,16 @@ int SyntacticalAnalyzer::More_Tokens(){
 * with nonterminal <param_list>                                                *
 *******************************************************************************/
 
-int SyntacticalAnalyzer::Param_List(bool needComma){
+int SyntacticalAnalyzer::Param_List(){
 	p2file << "Entering Param_List function; current token is: "
 		<< lex->GetTokenName(token) << ", lexeme: " << lex->GetLexeme() << endl;
 	int errors = 0;
     if(token == IDENT_T){
         p2file << "Using Rule 16" << endl;
-	if(needComma)
-	  gen->WriteCode(0, ", ");
-	gen->WriteCode(0, "Object " + lex->GetLexeme());
         token = lex->GetToken();
-        errors = Param_List(true);
+        errors = Param_List();
     }else if(token == RPAREN_T){
         p2file << "Using Rule 17" << endl;
-	needComma = false;
     }else{
         lex->ReportError("Unexpected Token; saw " + lex->GetLexeme());
         errors++;
@@ -776,21 +754,18 @@ int SyntacticalAnalyzer::Quoted_Lit(){
 * with nonterminal <stmt>                                                      *
 *******************************************************************************/
 
-int SyntacticalAnalyzer::Stmt(string symbol){
+int SyntacticalAnalyzer::Stmt(){
 	p2file << "Entering Stmt function; current token is: "
 		<< lex->GetTokenName(token) << ", lexeme: " << lex->GetLexeme() << endl;
 	int errors = 0;
 	if(token == IDENT_T){
 		p2file << "Using Rule 8" << endl;
-		gen->WriteCode(0, lex->GetLexeme() + symbol);
 		token = lex->GetToken();
 	}
 	else if(token == LPAREN_T){
 		p2file << "Using Rule 9" << endl;
 		token = lex->GetToken();
-		gen->WriteCode(0, "(");
 		errors += Action();
-		gen->WriteCode(0, ")" + symbol);
 		if(token == RPAREN_T){
 			token = lex->GetToken();
 		}
@@ -820,7 +795,7 @@ int SyntacticalAnalyzer::Stmt(string symbol){
 * with nonterminal <stmt_list>                                                 *
 *******************************************************************************/
 
-int SyntacticalAnalyzer::Stmt_List(string symbol){
+int SyntacticalAnalyzer::Stmt_List(){
 	p2file << "Entering Stmt_List function; current token is: "
 		<< lex->GetTokenName(token) << ", lexeme: " << lex->GetLexeme() << endl;
 	int errors = 0;
@@ -830,8 +805,8 @@ int SyntacticalAnalyzer::Stmt_List(string symbol){
 	   || token == STRLIT_T
 	   || token == QUOTE_T){
 	    p2file << "Using Rule 5" << endl;
-	    errors += Stmt(symbol);
-	    errors += Stmt_List(symbol);
+	    errors += Stmt();
+	    errors += Stmt_List();
 	}
 	else if (token == RPAREN_T){
 		p2file << "Using Rule 6" << endl;
@@ -910,7 +885,7 @@ int SyntacticalAnalyzer::Stmt_Pair_Body(){
 			lex->ReportError("Expecting ); saw " + lex->GetLexeme());
 			errors += 1;
 		}
-		errors += Stmt("");
+		errors += Stmt();
 	}
 	else if(token == NUMLIT_T
         || token == STRLIT_T
