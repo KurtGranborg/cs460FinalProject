@@ -6,20 +6,24 @@ using namespace std;
 
 Object reciprocal (Object n)
 {
-((((n numberp ) && ((n == )!) && ))?((n / )):);
+if(numberp( n )  &&   !(n  ==   Object(0) ) ) {
+Object( Object(1)   /  n)
+}else{
+ Object("invalid_parameter") 
+}
+
 }
 int main ()
 {
-(cout << ());
-(cout << endl);
-(cout << (()));
-(cout << endl);
-(cout << ());
-(cout << endl);
-(cout << ());
-(cout << endl);
-(cout << (()));
-(cout << endl);
-(cout << ());
-(cout << endl);
-}
+cout << Object(reciprocal( Object(7) ));
+cout << endl; 
+ cout << Object(reciprocal(Object( Object(1)   /   Object(7) ))); 
+ cout << endl; 
+ cout << Object(reciprocal( Object(.7) )); 
+ cout << endl; 
+ cout << Object(reciprocal( Object(7.7) )); 
+ cout << endl; 
+ cout << Object(reciprocal(Object( Object(50)   /   Object(7) ))); 
+ cout << endl; 
+ cout << Object(reciprocal( Object("Hello World") )); 
+ cout << endl;}

@@ -17,7 +17,7 @@
 #include <string>
 using namespace std;
 
-class SyntacticalAnalyzer 
+class SyntacticalAnalyzer
 {
     public:
 	SyntacticalAnalyzer (char * filename);
@@ -32,17 +32,18 @@ class SyntacticalAnalyzer
 	int Action();
 	int Any_Other_Token();
 	int Else_Part();
-	int Literal(); 
+	int Literal();
 	int More_Defines();
 	int More_Pairs();
 	int More_Tokens();
-	int Param_List(bool);
+	int Param_List();
 	int Quoted_Lit();
-	int Stmt(string);
-	int Stmt_List(string);
-	int Stmt_Pair();
+	int Stmt();
+	int Stmt_List(string, bool);
+	int Stmt_Pair(string);
 	int Stmt_Pair_Body();
-	int tabs = 0;
+	int tabs;
+  bool printedReturn;
 };
-	
+
 #endif

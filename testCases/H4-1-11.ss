@@ -3,7 +3,7 @@
 ;; square will return the square of a numeric input value
 (define (square n f d))
         (if (number? n)
-		(* n n)
+		          (* n n)
                 'invalid_parameter
         )
 )

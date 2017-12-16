@@ -103,9 +103,8 @@ int SyntacticalAnalyzer::Define(){
 	p2file << "Entering Define function; current token is: "
 	<< lex->GetTokenName(token) << ", lexeme: " << lex->GetLexeme() << endl;
 	p2file << "Using Rule 2" << endl;
-
+	printedReturn = false;
 	int errors = 0;
-	cout << "HERE" << endl;
 	//follow define recipe
 	if(token == LPAREN_T){
 		token = lex->GetToken();
@@ -117,7 +116,6 @@ int SyntacticalAnalyzer::Define(){
 		lex->ReportError("Expecting \"(\"; saw " + lex->GetLexeme());
 		token = lex->GetToken();
 	}
-
 	if(token == DEFINE_T){
 		token = lex->GetToken();
 	}
@@ -162,8 +160,9 @@ int SyntacticalAnalyzer::Define(){
 	}
 
 	//call grammar rules for <stmt> and <stmt_list>
-	errors += Stmt(";\n");
-	errors += Stmt_List(";\n");
+	errors += Stmt("");
+	gen->WriteCode(0, "\n");
+	errors += Stmt_List("\n", false);
 
 	if(token == RPAREN_T){
 		token = lex->GetToken();
@@ -177,7 +176,7 @@ int SyntacticalAnalyzer::Define(){
 
 	p2file << "Exiting Define function; current token is: "
 	<< lex->GetTokenName(token) << endl;
-	tabs--; 
+	tabs--;
 	return errors;
 }
 
@@ -196,155 +195,183 @@ int SyntacticalAnalyzer::Action(){
 	p2file << "Entering Action function; current token is: "
 		<< lex->GetTokenName (token) << ", lexeme: " << lex->GetLexeme() << endl;
 	int errors = 0;
-
 	//check firsts to determine which rules to use
-	if(token == IF_T){
-		p2file << "Using Rule 26" << endl;
-		token = lex->GetToken();
-		gen->WriteCode(0, "(");
-		errors += Stmt("");
-		gen->WriteCode(0, ")?(");
-		errors += Stmt("");
-		gen->WriteCode(0, "):");
-		errors += Else_Part();
-	}
-	else if(token == COND_T){
-		p2file << "Using Rule 27" << endl;
-		token = lex->GetToken();
-		errors += Stmt_Pair();
-		errors += More_Pairs();
-	}
-	else if(token == LISTOP_T){
-		p2file << "Using Rule 28" << endl;
-		string symbol = lex->GetLexeme();
-		token = lex->GetToken();
-		errors += Stmt(symbol);
-	}
-	else if(token == CONS_T){
-		p2file << "Using Rule 29" << endl;
-		token = lex->GetToken();
-		errors += Stmt("cons");
-		errors += Stmt("");
-	}
-	else if(token == AND_T){
-		p2file << "Using Rule 30" << endl;
-		token = lex->GetToken();
-		errors += Stmt_List(" && ");
-	}
-	else if(token == OR_T){
-		p2file << "Using Rule 31" << endl;
-		token = lex->GetToken();
-		errors += Stmt_List(" || ");
-	}
-	else if(token == NOT_T){
-		p2file << "Using Rule 32" << endl;
-		token = lex->GetToken();
-		errors += Stmt("!");
-	}
-	else if(token == NUMBERP_T){
-		p2file << "Using Rule 33" << endl;
-		token = lex->GetToken();
-		errors += Stmt(" numberp ");
-	}
-	else if(token == SYMBOLP_T){
-		p2file << "Using Rule 34" << endl;
-		token = lex->GetToken();
-		errors += Stmt(" symbolp ");
-	}
-	else if(token == LISTP_T){
-		p2file << "Using Rule 35" << endl;
-		token = lex->GetToken();
-		errors += Stmt(" listp ");
-	}
-	else if(token == ZEROP_T){
-		p2file << "Using Rule 36" << endl;
-		token = lex->GetToken();
-		errors += Stmt(" zerop ");
-	}
-	else if(token == NULLP_T){
-		p2file << "Using Rule 37" << endl;
-		token = lex->GetToken();
-		errors += Stmt(" nullp ");
-	}
-	else if(token == STRINGP_T){
-		p2file << "Using Rule 38" << endl;
-		token = lex->GetToken();
-		errors += Stmt(" stringp ");
-	}
-	else if(token == PLUS_T){
-		p2file << "Using Rule 39" << endl;
-		token = lex->GetToken();
-		errors += Stmt_List(" + ");
-	}
-	else if(token == MINUS_T){
-		p2file << "Using Rule 40" << endl;
-		token = lex->GetToken();
-		errors += Stmt(" - ");
-		errors += Stmt_List(" - ");
-	}
-	else if(token == DIV_T){
-		p2file << "Using Rule 41" << endl;
-		token = lex->GetToken();
-		errors += Stmt(" / ");
-		errors += Stmt_List(" / ");
-	}
-	else if(token == MULT_T){
-		p2file << "Using Rule 42" << endl;
-		token = lex->GetToken();
-		errors += Stmt_List(" * ");
-	}
-	else if(token == MODULO_T){
-		p2file << "Using Rule 43" << endl;
-		token = lex->GetToken();
-		errors += Stmt(" % ");
-		errors += Stmt(" % ");
-	}
-	else if(token == EQUALTO_T){
-		p2file << "Using Rule 44" << endl;
-		token = lex->GetToken();
-		errors += Stmt_List( " == ");
-	}
-	else if(token == GT_T){
-		p2file << "Using Rule 45" << endl;
-		token = lex->GetToken();
-		errors += Stmt_List(" > ");
-	}
-	else if(token == LT_T){
-		p2file << "Using Rule 46" << endl;
-		token = lex->GetToken();
-		errors += Stmt_List( " < ");
-	}
-	else if(token == GTE_T){
-		p2file << "Using Rule 47" << endl;
-		token = lex->GetToken();
-		errors += Stmt_List(" >= ");
-	}
-	else if(token == LTE_T){
-		p2file << "Using Rule 48" << endl;
-		token = lex->GetToken();
-		errors += Stmt_List( " <= ");
-	}
-	else if(token == IDENT_T){
-		p2file << "Using Rule 49" << endl;
-		string symbol = lex->GetLexeme();
-		token = lex->GetToken();
-		errors += Stmt_List("");
-	}
-	else if(token == DISPLAY_T){
+	if(token == DISPLAY_T){
 		p2file << "Using Rule 50" << endl;
 		token = lex->GetToken();
 		gen->WriteCode(0, "cout << ");
 		errors += Stmt("");
+		gen->WriteCode(0, ";");
+
 	}
 	else if(token == NEWLINE_T){
 		p2file << "Using Rule 51" << endl;
 		gen->WriteCode(0, "cout << endl");
 		token = lex->GetToken();
+		gen->WriteCode(0, ";");
+	}
+	else if(token == IF_T){
+		p2file << "Using Rule 26" << endl;
+		token = lex->GetToken();
+		gen->WriteCode(0, "if(");
+		errors += Stmt("");
+		gen->WriteCode(0, ") {\n");
+		errors += Stmt("");
+		gen->WriteCode(0, "\n}");
+		errors += Else_Part();
+	}else if(token == COND_T){
+		p2file << "Using Rule 27" << endl;
+		token = lex->GetToken();
+		errors += Stmt_Pair("");
+		errors += More_Pairs();
+		gen->WriteCode(0, " );\n");
+	}else if(token == AND_T){
+		p2file << "Using Rule 30" << endl;
+		token = lex->GetToken();
+		errors += Stmt_List(" && ", false);
+	}
+	else if(token == OR_T){
+		p2file << "Using Rule 31" << endl;
+		token = lex->GetToken();
+		errors += Stmt_List(" || ", false);
+	}
+	else if(token == NOT_T){
+		p2file << "Using Rule 32" << endl;
+		token = lex->GetToken();
+		gen->WriteCode(0, " !(");
+		errors += Stmt("");
+		gen->WriteCode(0, ") ");
+
+	}
+	else if(token == NUMBERP_T){
+		p2file << "Using Rule 33" << endl;
+		gen->WriteCode(0, "numberp( ");
+		token = lex->GetToken();
+		errors += Stmt("");
+		gen->WriteCode(0, " )");
+
+	}
+	else if(token == SYMBOLP_T){
+		p2file << "Using Rule 34" << endl;
+		gen->WriteCode(0, "symbolp( ");
+		token = lex->GetToken();
+		errors += Stmt("");
+		gen->WriteCode(0, " )");
+	}
+	else if(token == LISTP_T){
+		p2file << "Using Rule 35" << endl;
+		gen->WriteCode(0, "listp( ");
+		token = lex->GetToken();
+		errors += Stmt("");
+		gen->WriteCode(0, " )");
+	}
+	else if(token == ZEROP_T){
+		p2file << "Using Rule 36" << endl;
+		gen->WriteCode(0, "zerop( ");
+		token = lex->GetToken();
+		errors += Stmt("");
+		gen->WriteCode(0, " )");
+	}
+	else if(token == NULLP_T){
+		p2file << "Using Rule 37" << endl;
+		gen->WriteCode(0, "nullp( ");
+		token = lex->GetToken();
+		errors += Stmt("");
+		gen->WriteCode(0, " )");
+	}
+	else if(token == STRINGP_T){
+		p2file << "Using Rule 38" << endl;
+		gen->WriteCode(0, "stringp( ");
+		token = lex->GetToken();
+		errors += Stmt("");
+		gen->WriteCode(0, " )");
+	}else if(token == EQUALTO_T){
+		p2file << "Using Rule 44" << endl;
+		token = lex->GetToken();
+		errors += Stmt_List( " == ", false);
+	}
+	else if(token == GT_T){
+		p2file << "Using Rule 45" << endl;
+		token = lex->GetToken();
+		errors += Stmt_List(" > ", false);
+	}
+	else if(token == LT_T){
+		p2file << "Using Rule 46" << endl;
+		token = lex->GetToken();
+		errors += Stmt_List( " < ", false);
+	}
+	else if(token == GTE_T){
+		p2file << "Using Rule 47" << endl;
+		token = lex->GetToken();
+		errors += Stmt_List(" >= ", false);
+	}
+	else if(token == LTE_T){
+		p2file << "Using Rule 48" << endl;
+		token = lex->GetToken();
+		errors += Stmt_List( " <= ", false);
 	}
 	else{
-		errors++;
-		lex->ReportError("Expecting a first for action; saw " + lex->GetLexeme());
-		token = lex->GetToken();
+		gen->WriteCode(0, "Object(");
+		if(token == LISTOP_T){
+			p2file << "Using Rule 28" << endl;
+			string symbol = lex->GetLexeme();
+			token = lex->GetToken();
+			gen->WriteCode(0, "listop(\"" + symbol + "\", ");
+			errors += Stmt("");
+			gen->WriteCode(0, ")");
+		}
+		else if(token == CONS_T){
+			p2file << "Using Rule 29" << endl;
+			token = lex->GetToken();
+			gen->WriteCode(0, "cons(");
+			errors += Stmt("");
+			gen->WriteCode(0, ", ");
+			errors += Stmt("");
+			gen->WriteCode(0, ")");
+		}
+		else if(token == PLUS_T){
+			p2file << "Using Rule 39" << endl;
+			token = lex->GetToken();
+			errors += Stmt_List(" + ", false);
+		}
+		else if(token == MINUS_T){
+			p2file << "Using Rule 40" << endl;
+			token = lex->GetToken();
+			errors += Stmt("");
+			errors += Stmt_List(" - ", true);
+		}
+		else if(token == DIV_T){
+			p2file << "Using Rule 41" << endl;
+			token = lex->GetToken();
+			errors += Stmt("");
+			errors += Stmt_List(" / ", true);
+		}
+		else if(token == MULT_T){
+			p2file << "Using Rule 42" << endl;
+			token = lex->GetToken();
+			errors += Stmt_List(" * ", false);
+		}
+		else if(token == MODULO_T){
+			p2file << "Using Rule 43" << endl;
+			token = lex->GetToken();
+			errors += Stmt("");
+			gen->WriteCode(0, " % ");
+			errors += Stmt("");
+		}
+		else if(token == IDENT_T){
+			p2file << "Using Rule 49" << endl;\
+			gen->WriteCode(0, lex->GetLexeme() + "(");
+			string symbol = lex->GetLexeme();
+			token = lex->GetToken();
+			errors += Stmt_List("", false);
+			gen->WriteCode(0, ")");
+		}
+		else{
+			errors++;
+			lex->ReportError("Expecting a first for action; saw " + lex->GetLexeme());
+			token = lex->GetToken();
+		}
+		gen->WriteCode(0, ")");
 	}
 	p2file << "Exiting Action function; current token is: "
 		<< lex->GetTokenName(token) << endl;
@@ -371,10 +398,13 @@ int SyntacticalAnalyzer::Any_Other_Token(){
 
 	if(token == LPAREN_T){
 		p2file << "Using Rule 52" << endl;
+		gen->WriteCode(0, "(");
 		token = lex->GetToken();
+		gen->WriteCode(0, ", ");
 		errors += More_Tokens();
 
 		if(token == RPAREN_T){
+			gen->WriteCode(0, ")");
 			token = lex->GetToken();
 		}
 		else{
@@ -383,128 +413,131 @@ int SyntacticalAnalyzer::Any_Other_Token(){
 			token = lex->GetToken();
 		}
 	}
-	else if(token == IDENT_T){
-		p2file << "Using Rule 53" << endl;
-		token = lex->GetToken();
-	}
-	else if(token == NUMLIT_T){
-		p2file << "Using Rule 54" << endl;
-		token = lex->GetToken();
-	}
-	else if(token == STRLIT_T){
-		p2file << "Using Rule 55" << endl;
-		token = lex->GetToken();
-	}
-	else if(token == CONS_T){
-		p2file << "Using Rule 56" << endl;
-		token = lex->GetToken();
-	}
-	else if(token == IF_T){
-		p2file << "Using Rule 57" << endl;
-		token = lex->GetToken();
-	}
-	else if(token == DISPLAY_T){
-		p2file << "Using Rule 58" << endl;
-		token = lex->GetToken();
-	}
-	else if(token == NEWLINE_T){
-		p2file << "Using Rule 59" << endl;
-		token = lex->GetToken();
-	}
-	else if(token == LISTOP_T){
-		p2file << "Using Rule 60" << endl;
-		token = lex->GetToken();
-	}
-	else if(token == AND_T){
-		p2file << "Using Rule 61" << endl;
-		token = lex->GetToken();
-	}
-	else if(token == OR_T){
-		p2file << "Using Rule 62" << endl;
-		token = lex->GetToken();
-	}
-	else if(token == NOT_T){
-		p2file << "Using Rule 63" << endl;
-		token = lex->GetToken();
-	}
-	else if(token == DEFINE_T){
-		p2file << "Using Rule 64" << endl;
-		token = lex->GetToken();
-	}
-	else if(token == NUMBERP_T){
-		p2file << "Using Rule 65" << endl;
-		token = lex->GetToken();
-	}
-	else if(token == SYMBOLP_T){
-		p2file << "Using Rule 66" << endl;
-		token = lex->GetToken();
-	}
-	else if(token == LISTP_T){
-		p2file << "Using Rule 67" << endl;
-		token = lex->GetToken();
-	}
-	else if(token == ZEROP_T){
-		p2file << "Using Rule 68" << endl;
-		token = lex->GetToken();
-	}
-	else if(token == NULLP_T){
-		p2file << "Using Rule 69" << endl;
-		token = lex->GetToken();
-	}
-	else if(token == STRINGP_T){
-		p2file << "Using Rule 70" << endl;
-		token = lex->GetToken();
-	}
-	else if(token == PLUS_T){
-		p2file << "Using Rule 71" << endl;
-		token = lex->GetToken();
-	}
-	else if(token == MINUS_T){
-		p2file << "Using Rule 72" << endl;
-		token = lex->GetToken();
-	}
-	else if(token == DIV_T){
-		p2file << "Using Rule 73" << endl;
-		token = lex->GetToken();
-	}
-	else if(token == MULT_T){
-		p2file << "Using Rule 74" << endl;
-		token = lex->GetToken();
-	}
-	else if(token == MODULO_T){
-		p2file << "Using Rule 75" << endl;
-		token = lex->GetToken();
-	}
-	else if(token == EQUALTO_T){
-		p2file << "Using Rule 76" << endl;
-		token = lex->GetToken();
-	}
-	else if(token == GT_T){
-		p2file << "Using Rule 77" << endl;
-		token = lex->GetToken();
-	}
-	else if(token == LT_T){
-		p2file << "Using Rule 78" << endl;
-		token = lex->GetToken();
-	}
-	else if(token == GTE_T){
-		p2file << "Using Rule 79" << endl;
-		token = lex->GetToken();
-	}
-	else if(token == LTE_T){
-		p2file << "Using Rule 80" << endl;
-		token = lex->GetToken();
-	}
-	else if(token == QUOTE_T){
-		p2file << "Using Rule 81" << endl;
-		token = lex->GetToken();
-		errors += Any_Other_Token();
-	}
 	else{
-		errors++;
-		lex->ReportError("Expecting a first for any_other_token; saw "
-			+ lex->GetLexeme());
-		token = lex->GetToken();
+		gen->WriteCode(0, lex->GetLexeme());
+		if(token == IDENT_T){
+			p2file << "Using Rule 53" << endl;
+			token = lex->GetToken();
+		}
+		else if(token == NUMLIT_T){
+			p2file << "Using Rule 54" << endl;
+			token = lex->GetToken();
+		}
+		else if(token == STRLIT_T){
+			p2file << "Using Rule 55" << endl;
+			token = lex->GetToken();
+		}
+		else if(token == CONS_T){
+			p2file << "Using Rule 56" << endl;
+			token = lex->GetToken();
+		}
+		else if(token == IF_T){
+			p2file << "Using Rule 57" << endl;
+			token = lex->GetToken();
+		}
+		else if(token == DISPLAY_T){
+			p2file << "Using Rule 58" << endl;
+			token = lex->GetToken();
+		}
+		else if(token == NEWLINE_T){
+			p2file << "Using Rule 59" << endl;
+			token = lex->GetToken();
+		}
+		else if(token == LISTOP_T){
+			p2file << "Using Rule 60" << endl;
+			token = lex->GetToken();
+		}
+		else if(token == AND_T){
+			p2file << "Using Rule 61" << endl;
+			token = lex->GetToken();
+		}
+		else if(token == OR_T){
+			p2file << "Using Rule 62" << endl;
+			token = lex->GetToken();
+		}
+		else if(token == NOT_T){
+			p2file << "Using Rule 63" << endl;
+			token = lex->GetToken();
+		}
+		else if(token == DEFINE_T){
+			p2file << "Using Rule 64" << endl;
+			token = lex->GetToken();
+		}
+		else if(token == NUMBERP_T){
+			p2file << "Using Rule 65" << endl;
+			token = lex->GetToken();
+		}
+		else if(token == SYMBOLP_T){
+			p2file << "Using Rule 66" << endl;
+			token = lex->GetToken();
+		}
+		else if(token == LISTP_T){
+			p2file << "Using Rule 67" << endl;
+			token = lex->GetToken();
+		}
+		else if(token == ZEROP_T){
+			p2file << "Using Rule 68" << endl;
+			token = lex->GetToken();
+		}
+		else if(token == NULLP_T){
+			p2file << "Using Rule 69" << endl;
+			token = lex->GetToken();
+		}
+		else if(token == STRINGP_T){
+			p2file << "Using Rule 70" << endl;
+			token = lex->GetToken();
+		}
+		else if(token == PLUS_T){
+			p2file << "Using Rule 71" << endl;
+			token = lex->GetToken();
+		}
+		else if(token == MINUS_T){
+			p2file << "Using Rule 72" << endl;
+			token = lex->GetToken();
+		}
+		else if(token == DIV_T){
+			p2file << "Using Rule 73" << endl;
+			token = lex->GetToken();
+		}
+		else if(token == MULT_T){
+			p2file << "Using Rule 74" << endl;
+			token = lex->GetToken();
+		}
+		else if(token == MODULO_T){
+			p2file << "Using Rule 75" << endl;
+			token = lex->GetToken();
+		}
+		else if(token == EQUALTO_T){
+			p2file << "Using Rule 76" << endl;
+			token = lex->GetToken();
+		}
+		else if(token == GT_T){
+			p2file << "Using Rule 77" << endl;
+			token = lex->GetToken();
+		}
+		else if(token == LT_T){
+			p2file << "Using Rule 78" << endl;
+			token = lex->GetToken();
+		}
+		else if(token == GTE_T){
+			p2file << "Using Rule 79" << endl;
+			token = lex->GetToken();
+		}
+		else if(token == LTE_T){
+			p2file << "Using Rule 80" << endl;
+			token = lex->GetToken();
+		}
+		else if(token == QUOTE_T){
+			p2file << "Using Rule 81" << endl;
+			token = lex->GetToken();
+			errors += Any_Other_Token();
+		}
+		else{
+			errors++;
+			lex->ReportError("Expecting a first for any_other_token; saw "
+				+ lex->GetLexeme());
+			token = lex->GetToken();
+		}
 	}
 	p2file << "Exiting Any_Other_Token function; current token is: "
 		<< lex->GetTokenName(token) << endl;
@@ -531,9 +564,11 @@ int SyntacticalAnalyzer::Else_Part(){
         	|| token == NUMLIT_T
         	|| token == STRLIT_T
         	|| token == QUOTE_T)
-	{
+					{
         	p2file << "Using Rule 18" << endl;
+					gen->WriteCode(0, "else{\n");
 	        errors += Stmt("");
+					gen->WriteCode(0, "\n}\n");
     	}
     	else if(token == RPAREN_T){
         	p2file << "Using Rule 19" << endl;
@@ -565,10 +600,12 @@ int SyntacticalAnalyzer::Literal(){
 
 	if(token == NUMLIT_T){
 		p2file << "Using Rule 10" << endl;
+		gen->WriteCode(0, " Object(" + lex->GetLexeme() + ") ");
 		token = lex->GetToken();
 	}
 	else if (token == STRLIT_T){
 		p2file << "Using Rule 11" << endl;
+		gen->WriteCode(0, " Object(" + lex->GetLexeme() + ") ");
 		token = lex->GetToken();
 	}
 	else if (token == QUOTE_T){
@@ -637,7 +674,7 @@ int SyntacticalAnalyzer::More_Pairs(){
 	int errors = 0;
     	if(token == LPAREN_T) {
         	p2file << "Using Rule 24" << endl;
-        	errors += Stmt_Pair();
+        	errors += Stmt_Pair("");
 		errors += More_Pairs();
     	}else if(token == RPAREN_T)
 		// {} means do nothing
@@ -760,7 +797,9 @@ int SyntacticalAnalyzer::Quoted_Lit(){
 		<< lex->GetTokenName(token) << ", lexeme: " << lex->GetLexeme() << endl;
 	int errors = 0;
 	p2file << "Using Rule 13" << endl;
+	gen->WriteCode(0, " Object(\"");
 	errors += Any_Other_Token();
+	gen->WriteCode(0, "\") ");
 	p2file << "Exiting Quoted_Lit function; current token is: "
 		<< lex->GetTokenName(token) << endl;
 	return errors;
@@ -782,15 +821,13 @@ int SyntacticalAnalyzer::Stmt(string symbol){
 	int errors = 0;
 	if(token == IDENT_T){
 		p2file << "Using Rule 8" << endl;
-		gen->WriteCode(0, lex->GetLexeme() + symbol);
+		gen->WriteCode(0, lex->GetLexeme());
 		token = lex->GetToken();
 	}
 	else if(token == LPAREN_T){
 		p2file << "Using Rule 9" << endl;
 		token = lex->GetToken();
-		gen->WriteCode(0, "(");
 		errors += Action();
-		gen->WriteCode(0, ")" + symbol);
 		if(token == RPAREN_T){
 			token = lex->GetToken();
 		}
@@ -820,7 +857,7 @@ int SyntacticalAnalyzer::Stmt(string symbol){
 * with nonterminal <stmt_list>                                                 *
 *******************************************************************************/
 
-int SyntacticalAnalyzer::Stmt_List(string symbol){
+int SyntacticalAnalyzer::Stmt_List(string symbol, bool printSymbol){
 	p2file << "Entering Stmt_List function; current token is: "
 		<< lex->GetTokenName(token) << ", lexeme: " << lex->GetLexeme() << endl;
 	int errors = 0;
@@ -830,8 +867,10 @@ int SyntacticalAnalyzer::Stmt_List(string symbol){
 	   || token == STRLIT_T
 	   || token == QUOTE_T){
 	    p2file << "Using Rule 5" << endl;
-	    errors += Stmt(symbol);
-	    errors += Stmt_List(symbol);
+			if (printSymbol)
+				gen->WriteCode(0, " " + symbol + " ");
+	    errors += Stmt("");
+	    errors += Stmt_List(symbol, true);
 	}
 	else if (token == RPAREN_T){
 		p2file << "Using Rule 6" << endl;
@@ -857,7 +896,7 @@ int SyntacticalAnalyzer::Stmt_List(string symbol){
 * with nonterminal <stmt_pair>                                                 *
 *******************************************************************************/
 
-int SyntacticalAnalyzer::Stmt_Pair(){
+int SyntacticalAnalyzer::Stmt_Pair(string symbol){
 	p2file << "Entering Stmt_Pair function; current token is: "
 		<< lex->GetTokenName(token) << ", lexeme: " << lex->GetLexeme() << endl;
 	int errors = 0;
@@ -902,7 +941,9 @@ int SyntacticalAnalyzer::Stmt_Pair_Body(){
 	if(token == LPAREN_T){
 		p2file << "Using Rule 21" << endl;
 		token = lex->GetToken();
+		gen->WriteCode(0, "if(");
 		errors += Action();
+		gen->WriteCode(0, "){\n");
 		if(token == RPAREN_T){
 			token = lex->GetToken();
 		}
@@ -911,6 +952,7 @@ int SyntacticalAnalyzer::Stmt_Pair_Body(){
 			errors += 1;
 		}
 		errors += Stmt("");
+		gen->WriteCode(0, "}\n");
 	}
 	else if(token == NUMLIT_T
         || token == STRLIT_T
