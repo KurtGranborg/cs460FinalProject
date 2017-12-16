@@ -4,7 +4,7 @@
 * Authors: Kurt Granborg, Eli Simmonds, Charlie Moore                          *
 * Based on Project 2 code by: Team V-Brooke Gardner, Kurt Granborg, John Eggers*
 * Date: Fall 2017                                                              *
-* File: SyntacticalAnalyzer.cpp                                                *
+* File: Syntactical Analyzer.cpp                                               *
 *                                                                              *
 * Description: This file contains the function implementations for             *
 * SyntacticAnalyzer.h                                                          *
@@ -183,8 +183,7 @@ int SyntacticalAnalyzer::Define(){
 /*******************************************************************************
 * Function: Action                                                             *
 *                                                                              *
-* Parameters: bool shouldReturn -- Defines if an action's result should be     *
-* 		      returned.                                                        *
+* Parameters: none                                                             *
 * Return value: count of errors found                                          *
 * Description: This function will examine the order of tokens found by the     *
 * LexicalAnalyzer and determine if it is appropriate for grammar rules starting*
@@ -442,8 +441,7 @@ int SyntacticalAnalyzer::Action(bool shouldReturn){
 /*******************************************************************************
 * Function: Any_Other_Token                                                    *
 *                                                                              *
-* Parameters: bool addSpace -- Determines if a space should be added before the*
-*			element                                                            *
+* Parameters: none                                                             *
 * Return value: count of errors found                                          *
 * Description: This function will examine the order of tokens found by the     *
 * LexicalAnalyzer and determine if it is appropriate for grammar rules starting*
@@ -813,8 +811,7 @@ int SyntacticalAnalyzer::More_Tokens(){
 /*******************************************************************************
 * Function: Param_List                                                         *
 *                                                                              *
-* Parameters: bool needComma -- determines if a comma needs to be printed      *
-*          between elements                                                    *
+* Parameters: none                                                             *
 * Return value: count of errors found                                          *
 * Description: This function will examine the order of tokens found by the     *
 * LexicalAnalyzer and determine if it is appropriate for grammar rules starting*
@@ -871,7 +868,7 @@ int SyntacticalAnalyzer::Quoted_Lit(){
 /*******************************************************************************
 * Function: Stmt                                                               *
 *                                                                              *
-* Parameters: bool shouldReturn -- determines if a statement should return     *
+* Parameters: none                                                             *
 * Return value: count of errors found                                          *
 * Description: This function will examine the order of tokens found by the     *
 * LexicalAnalyzer and determine if it is appropriate for grammar rules starting*
@@ -917,11 +914,7 @@ int SyntacticalAnalyzer::Stmt(bool shouldReturn){
 /*******************************************************************************
 * Function: Stmt_List                                                          *
 *                                                                              *
-* Parameters: string symbol -- symbol that must be printed between satements   *
-*			  bool printSymbol -- determines if a stmt was printed before      *
-*                                 calling Stmt_List, and if the symbol should  *
-*                                 printed first                                *
-*             bool shouldReturn -- Determines if first Stmt should return      *
+* Parameters: none                                                             *
 * Return value: count of errors found                                          *
 * Description: This function will examine the order of tokens found by the     *
 * LexicalAnalyzer and determine if it is appropriate for grammar rules starting*
@@ -960,7 +953,7 @@ int SyntacticalAnalyzer::Stmt_List(string symbol, bool printSymbol, bool shouldR
 /*******************************************************************************
 * Function: Stmt_Pair                                                          *
 *                                                                              *
-* Parameters: string symbol -- symbol to be printed between Stmts              *
+* Parameters: none                                                             *
 * Return value: count of errors found                                          *
 * Description: This function will examine the order of tokens found by the     *
 * LexicalAnalyzer and determine if it is appropriate for grammar rules starting*

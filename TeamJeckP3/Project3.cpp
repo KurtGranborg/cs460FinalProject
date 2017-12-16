@@ -1,10 +1,10 @@
 /*******************************************************************************
-* Assignment: Project 3 - Syntactic Analyzer for Scheme to C++ Translator      *
+* Assignment: Project 2 - Syntactic Analyzer for Scheme to C++ Translator      *
 * Author: Dr. Watts                                                            *
 * Date: Fall 2017                                                              *
-* File: Project3.cpp                                                           *
+* File: Project2.cpp                                                           *
 *                                                                              *
-* Description: This file sets up SyntacticalAnalyzer/Sets Limist               *
+* Description: This file contains the                                          *
 *******************************************************************************/
 
 #include <cstdlib>

@@ -25,14 +25,14 @@ run :
 	make; ./P3.out testCases/$(fileName).ss; more testCases/$(fileName).cpp
 
 submit : Project3.cpp LexicalAnalyzer.h LexicalAnalyzer.cpp SyntacticalAnalyzer.h SyntacticalAnalyzer.cpp makefile README.txt
-	rm -rf TeamJECKP3
-	mkdir TeamJECKP3
-	cp Project3.cpp TeamJECKP3
-	cp LexicalAnalyzer.h TeamJECKP3
-	cp LexicalAnalyzer.cpp TeamJECKP3
-	cp SyntacticalAnalyzer.h TeamJECKP3
-	cp SyntacticalAnalyzer.cpp TeamJECKP3
-	cp makefile TeamJECKP3
-	cp README.txt TeamJECKP3
-	tar cfvz TeamJECKP3.tgz TeamJECKP3
-	cp TeamJECKP3.tgz ~tiawatts/cs460drop
+	rm -rf TeamJeckP3
+	mkdir TeamJeckP3
+	cp Project3.cpp TeamJeckP3
+	cp LexicalAnalyzer.h TeamJeckP3
+	cp LexicalAnalyzer.cpp TeamJeckP3
+	cp SyntacticalAnalyzer.h TeamJeckP3
+	cp SyntacticalAnalyzer.cpp TeamJeckP3
+	cp makefile TeamJeckP3
+	cp README.txt TeamJeckP3
+	tar cfvz TeamVP2.tgz TeamJeckP3
+	cp TeamVP2.tgz ~tiawatts/cs460drop

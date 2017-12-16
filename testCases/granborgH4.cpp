@@ -4,87 +4,18 @@
 #include "Object.h"
 using namespace std;
 
-Object square (Object n)
+int main ()
 {
-if(numberp( n )) {
-Object(n  *  n)
-}else{
- Object("invalid_parameter") 
+	cout << Object( 1234 );
+	cout << endl; 
+ 	cout << Object( 14.5 ); 
+ 	cout << endl; 
+ 	cout << Object( "a" ); 
+ 	cout << endl; 
+ 	cout << Object( "abc" ); 
+ 	cout << endl; 
+ 	cout << Object( "Hello World" ); 
+ 	cout << endl; 
+ 	cout << Object( "( 1 23 abc de45 )" ); 
+ 	cout << endl;
 }
-
-}
-Object reciprocal (Object n)
-{
-if(numberp( n )  &&   !(n  ==   Object(0) ) ) {
-Object( Object(1)   /  n)
-}else{
- Object("invalid_parameter") 
-}
-
-}
-Object list_copy (Object ls)
-{
-if(listp( ls )) {
-ls
-}else{
- Object("list_copy1_requires_a_list_argument") 
-}
-
-}
-Object odd_copy (Object ls)
-{
-if(listp( ls )) {
-if(nullp( ls )) {
- Object("(, )") 
-}else{
-if(nullp( Object(listop("cdr", ls)) )) {
-Object(cons(Object(listop("car", ls)),  Object("(, )") ))
-}else{
-Object(cons(Object(listop("car", ls)), Object(odd_copy(Object(listop("cddr", ls))))))
-}
-
-}
-
-}else{
- Object("odd_copy_requires_a_list_argument") 
-}
-
-}
-Object even_copy (Object myList)
-{
-if(listp( myList )) {
-if(nullp( myList )) {
- Object("(, )") 
-}else{
-if(nullp( Object(listop("cdr", myList)) )) {
- Object("(, )") 
-}else{
-Object(cons(Object(listop("car", Object(listop("cdr", myList)))), Object(even_copy(Object(listop("cddr", myList))))))
-}
-
-}
-
-}else{
- Object("even_copy_requires_list_argument") 
-}
-
-}
-Object list_sum (Object mylist)
-{
-if( !(listp( mylist )) ){
- Object(0) }
-if(nullp( mylist )){
- Object(0) }
-if(numberp( Object(listop("car", mylist)) )){
-Object(Object(listop("car", mylist))  +  Object(list_sum(Object(listop("cdr", mylist)))))}
-if(Object(list_sum(Object(listop("cdr", mylist))))){
-}
- );
-
-Object() 
- last 
- mylist}
-)
-{
-
-mylist}

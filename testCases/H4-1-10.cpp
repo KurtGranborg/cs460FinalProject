@@ -4,26 +4,27 @@
 #include "Object.h"
 using namespace std;
 
-Object reciprocal (Object n)
+Object reciprocal ( Object n)
 {
-if(numberp( n )  &&   !(n  ==   Object(0) ) ) {
-Object( Object(1)   /  n)
-}else{
- Object("invalid_parameter") 
-}
+	if( numberp( n )  &&   !( n  ==  Object( 0 ) ) ) {
+		return Object( Object( 1 )  /  n );
+	}else{
+		return  Object( "invalid_parameter" );
+	}
 
 }
 int main ()
 {
-cout << Object(reciprocal( Object(7) ));
-cout << endl; 
- cout << Object(reciprocal(Object( Object(1)   /   Object(7) ))); 
- cout << endl; 
- cout << Object(reciprocal( Object(.7) )); 
- cout << endl; 
- cout << Object(reciprocal( Object(7.7) )); 
- cout << endl; 
- cout << Object(reciprocal(Object( Object(50)   /   Object(7) ))); 
- cout << endl; 
- cout << Object(reciprocal( Object("Hello World") )); 
- cout << endl;}
+	cout << Object( reciprocal( Object( 7 ) ) );
+	cout << endl; 
+ 	cout << Object( reciprocal( Object( Object( 1 )  /  Object( 7 ) ) ) ); 
+ 	cout << endl; 
+ 	cout << Object( reciprocal( Object( .7 ) ) ); 
+ 	cout << endl; 
+ 	cout << Object( reciprocal( Object( 7.7 ) ) ); 
+ 	cout << endl; 
+ 	cout << Object( reciprocal( Object( Object( 50 )  /  Object( 7 ) ) ) ); 
+ 	cout << endl; 
+ 	cout << Object( reciprocal( Object( "Hello World" ) ) ); 
+ 	cout << endl;
+}

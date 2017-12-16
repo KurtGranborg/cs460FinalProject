@@ -1,76 +1,10 @@
 Input file: testCases/granborgH4.ss
-   1: ;if n is a number, square it.
-   2: (define (square n)
-   3:   (if (number? n)
-   4:       (* n n)
-   5:       'invalid_parameter
-   6:       )
-   7:   )
-   8: 
-   9: ;if n is a number, return 1/n 
-  10: (define (reciprocal n)
-  11:   (if (and (number? n) (not (= n 0)))
-  12:       (/ 1 n)
-  13:       'invalid_parameter
-  14:       )
-  15:   )
-  16: 
-  17: ;copies a list
-  18: (define (list_copy ls)
-  19:   (if (list? ls)
-  20:       ls
-  21:       'list_copy1_requires_a_list_argument
-  22:       )
-  23:   )
-  24: 
-  25: ;copies all elements in a list in odd indices of the list, first index is list[1]
-  26: (define (odd_copy ls)
-  27:   (if (list? ls)
-  28:       (if (null? ls)
-  29: 	  '()
-  30: 	  (if (null? (cdr ls))
-  31: 		     (cons (car ls) '())
-  32: 		     (cons (car ls) (odd_copy (cddr ls)))
-  33: 		     )
-  34: 	  )
-  35:       'odd_copy_requires_a_list_argument
-  36:       )
-  37:       )
-  38:   
-  39: ;copies all elements in a list in even indices of the list, first index is list[1]
-  40: (define (even_copy myList)
-  41:   (if (list? myList)
-  42:       (if (null? myList)
-  43: 	  '()
-  44: 	  (if (null? (cdr myList)) ;if the list has one element
-  45: 		     '()      ;return a null list
-  46: 		     (cons(car (cdr myList)) (even_copy (cddr myList))) ;else return the 2nd element and even elements of the cdr
-  47: 		     )
-  48: 	  )
-  49:       'even_copy_requires_list_argument
-  50:      )
-  51:   )
-  52: 
-  53: ;sums all numbers that appear at any depth in a list
-  54: (define (list_sum mylist)
-  55:   (cond ((not (list? mylist)) 0) ;were we given a list? if not return 0
-  56: 	((null? mylist) 0) ;Is the list null? return 0
-  57:        	((number? (car mylist)) (+ (car mylist) (list_sum (cdr mylist))))
-  58: 	((list_sum (cdr mylist)))
-Error at 58,26: Expeciting a first for Literal; saw)
-  59: 	)
-  60:   )
-  61: 
-  62: ;returns the last element of a list
-  63: (define (last mylist)
-Error at 63,7: Expecting a first for action; saw define
-Error at 63,9: Expecting ); saw (
-  64:   (cond ((not (list? mylist)) 'last_requires_a_list_as_an_arg)
-Error at 64,7: Expecting "define"; sawcond
-Error at 64,10: Expecting identifiers; saw (
-Error at 64,13: Unexpected Token; saw not
-Error at 64,15: Expecting ")"; saw (
-Error at 64,20: Expeciting a first for Literal; sawlist?
-Error at 64,29: Unexpected Token; saw )
-Error at 64,29: Missing end of file at end of program
-10 errors found in input file
+   1: (define (main)
+   2:         (display 1234) (newline)
+   3:         (display 14.5) (newline)
+   4:         (display 'a) (newline)
+   5:         (display 'abc) (newline)
+   6:         (display "Hello World") (newline)
+   7:         (display '(1 23 abc de45)) (newline)
+   8: )
+0 errors found in input file

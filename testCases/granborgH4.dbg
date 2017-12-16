@@ -1,337 +1,66 @@
 Input file: testCases/granborgH4.ss
-   1: ;if n is a number, square it.
-   2: (define (square n)
+   1: (define (main)
 	LPAREN_T        (
 	DEFINE_T        define
 	LPAREN_T        (
-	IDENT_T         square
-	IDENT_T         n
+	IDENT_T         main
 	RPAREN_T        )
-   3:   (if (number? n)
+   2:         (display 1234) (newline)
 	LPAREN_T        (
-	IF_T            if
-	LPAREN_T        (
-	NUMBERP_T       number?
-	IDENT_T         n
+	DISPLAY_T       display
+	NUMLIT_T        1234
 	RPAREN_T        )
-   4:       (* n n)
 	LPAREN_T        (
-	MULT_T          *
-	IDENT_T         n
-	IDENT_T         n
+	NEWLINE_T       newline
 	RPAREN_T        )
-   5:       'invalid_parameter
+   3:         (display 14.5) (newline)
+	LPAREN_T        (
+	DISPLAY_T       display
+	NUMLIT_T        14.5
+	RPAREN_T        )
+	LPAREN_T        (
+	NEWLINE_T       newline
+	RPAREN_T        )
+   4:         (display 'a) (newline)
+	LPAREN_T        (
+	DISPLAY_T       display
 	QUOTE_T         '
-	IDENT_T         invalid_parameter
-   6:       )
-	RPAREN_T        )
-   7:   )
-	RPAREN_T        )
-   8: 
-   9: ;if n is a number, return 1/n 
-  10: (define (reciprocal n)
-	LPAREN_T        (
-	DEFINE_T        define
-	LPAREN_T        (
-	IDENT_T         reciprocal
-	IDENT_T         n
-	RPAREN_T        )
-  11:   (if (and (number? n) (not (= n 0)))
-	LPAREN_T        (
-	IF_T            if
-	LPAREN_T        (
-	AND_T           and
-	LPAREN_T        (
-	NUMBERP_T       number?
-	IDENT_T         n
+	IDENT_T         a
 	RPAREN_T        )
 	LPAREN_T        (
-	NOT_T           not
+	NEWLINE_T       newline
+	RPAREN_T        )
+   5:         (display 'abc) (newline)
 	LPAREN_T        (
-	EQUALTO_T       =
-	IDENT_T         n
-	NUMLIT_T        0
+	DISPLAY_T       display
+	QUOTE_T         '
+	IDENT_T         abc
 	RPAREN_T        )
-	RPAREN_T        )
-	RPAREN_T        )
-  12:       (/ 1 n)
 	LPAREN_T        (
-	DIV_T           /
+	NEWLINE_T       newline
+	RPAREN_T        )
+   6:         (display "Hello World") (newline)
+	LPAREN_T        (
+	DISPLAY_T       display
+	STRLIT_T        "Hello World"
+	RPAREN_T        )
+	LPAREN_T        (
+	NEWLINE_T       newline
+	RPAREN_T        )
+   7:         (display '(1 23 abc de45)) (newline)
+	LPAREN_T        (
+	DISPLAY_T       display
+	QUOTE_T         '
+	LPAREN_T        (
 	NUMLIT_T        1
-	IDENT_T         n
-	RPAREN_T        )
-  13:       'invalid_parameter
-	QUOTE_T         '
-	IDENT_T         invalid_parameter
-  14:       )
-	RPAREN_T        )
-  15:   )
-	RPAREN_T        )
-  16: 
-  17: ;copies a list
-  18: (define (list_copy ls)
-	LPAREN_T        (
-	DEFINE_T        define
-	LPAREN_T        (
-	IDENT_T         list_copy
-	IDENT_T         ls
-	RPAREN_T        )
-  19:   (if (list? ls)
-	LPAREN_T        (
-	IF_T            if
-	LPAREN_T        (
-	LISTP_T         list?
-	IDENT_T         ls
-	RPAREN_T        )
-  20:       ls
-	IDENT_T         ls
-  21:       'list_copy1_requires_a_list_argument
-	QUOTE_T         '
-	IDENT_T         list_copy1_requires_a_list_argument
-  22:       )
-	RPAREN_T        )
-  23:   )
-	RPAREN_T        )
-  24: 
-  25: ;copies all elements in a list in odd indices of the list, first index is list[1]
-  26: (define (odd_copy ls)
-	LPAREN_T        (
-	DEFINE_T        define
-	LPAREN_T        (
-	IDENT_T         odd_copy
-	IDENT_T         ls
-	RPAREN_T        )
-  27:   (if (list? ls)
-	LPAREN_T        (
-	IF_T            if
-	LPAREN_T        (
-	LISTP_T         list?
-	IDENT_T         ls
-	RPAREN_T        )
-  28:       (if (null? ls)
-	LPAREN_T        (
-	IF_T            if
-	LPAREN_T        (
-	NULLP_T         null?
-	IDENT_T         ls
-	RPAREN_T        )
-  29: 	  '()
-	QUOTE_T         '
-	LPAREN_T        (
-	RPAREN_T        )
-  30: 	  (if (null? (cdr ls))
-	LPAREN_T        (
-	IF_T            if
-	LPAREN_T        (
-	NULLP_T         null?
-	LPAREN_T        (
-	LISTOP_T        cdr
-	IDENT_T         ls
-	RPAREN_T        )
-	RPAREN_T        )
-  31: 		     (cons (car ls) '())
-	LPAREN_T        (
-	CONS_T          cons
-	LPAREN_T        (
-	LISTOP_T        car
-	IDENT_T         ls
-	RPAREN_T        )
-	QUOTE_T         '
-	LPAREN_T        (
-	RPAREN_T        )
-	RPAREN_T        )
-  32: 		     (cons (car ls) (odd_copy (cddr ls)))
-	LPAREN_T        (
-	CONS_T          cons
-	LPAREN_T        (
-	LISTOP_T        car
-	IDENT_T         ls
-	RPAREN_T        )
-	LPAREN_T        (
-	IDENT_T         odd_copy
-	LPAREN_T        (
-	LISTOP_T        cddr
-	IDENT_T         ls
-	RPAREN_T        )
-	RPAREN_T        )
-	RPAREN_T        )
-  33: 		     )
-	RPAREN_T        )
-  34: 	  )
-	RPAREN_T        )
-  35:       'odd_copy_requires_a_list_argument
-	QUOTE_T         '
-	IDENT_T         odd_copy_requires_a_list_argument
-  36:       )
-	RPAREN_T        )
-  37:       )
-	RPAREN_T        )
-  38:   
-  39: ;copies all elements in a list in even indices of the list, first index is list[1]
-  40: (define (even_copy myList)
-	LPAREN_T        (
-	DEFINE_T        define
-	LPAREN_T        (
-	IDENT_T         even_copy
-	IDENT_T         myList
-	RPAREN_T        )
-  41:   (if (list? myList)
-	LPAREN_T        (
-	IF_T            if
-	LPAREN_T        (
-	LISTP_T         list?
-	IDENT_T         myList
-	RPAREN_T        )
-  42:       (if (null? myList)
-	LPAREN_T        (
-	IF_T            if
-	LPAREN_T        (
-	NULLP_T         null?
-	IDENT_T         myList
-	RPAREN_T        )
-  43: 	  '()
-	QUOTE_T         '
-	LPAREN_T        (
-	RPAREN_T        )
-  44: 	  (if (null? (cdr myList)) ;if the list has one element
-	LPAREN_T        (
-	IF_T            if
-	LPAREN_T        (
-	NULLP_T         null?
-	LPAREN_T        (
-	LISTOP_T        cdr
-	IDENT_T         myList
-	RPAREN_T        )
-	RPAREN_T        )
-  45: 		     '()      ;return a null list
-	QUOTE_T         '
-	LPAREN_T        (
-	RPAREN_T        )
-  46: 		     (cons(car (cdr myList)) (even_copy (cddr myList))) ;else return the 2nd element and even elements of the cdr
-	LPAREN_T        (
-	CONS_T          cons
-	LPAREN_T        (
-	LISTOP_T        car
-	LPAREN_T        (
-	LISTOP_T        cdr
-	IDENT_T         myList
+	NUMLIT_T        23
+	IDENT_T         abc
+	IDENT_T         de45
 	RPAREN_T        )
 	RPAREN_T        )
 	LPAREN_T        (
-	IDENT_T         even_copy
-	LPAREN_T        (
-	LISTOP_T        cddr
-	IDENT_T         myList
+	NEWLINE_T       newline
 	RPAREN_T        )
+   8: )
 	RPAREN_T        )
-	RPAREN_T        )
-  47: 		     )
-	RPAREN_T        )
-  48: 	  )
-	RPAREN_T        )
-  49:       'even_copy_requires_list_argument
-	QUOTE_T         '
-	IDENT_T         even_copy_requires_list_argument
-  50:      )
-	RPAREN_T        )
-  51:   )
-	RPAREN_T        )
-  52: 
-  53: ;sums all numbers that appear at any depth in a list
-  54: (define (list_sum mylist)
-	LPAREN_T        (
-	DEFINE_T        define
-	LPAREN_T        (
-	IDENT_T         list_sum
-	IDENT_T         mylist
-	RPAREN_T        )
-  55:   (cond ((not (list? mylist)) 0) ;were we given a list? if not return 0
-	LPAREN_T        (
-	COND_T          cond
-	LPAREN_T        (
-	LPAREN_T        (
-	NOT_T           not
-	LPAREN_T        (
-	LISTP_T         list?
-	IDENT_T         mylist
-	RPAREN_T        )
-	RPAREN_T        )
-	NUMLIT_T        0
-	RPAREN_T        )
-  56: 	((null? mylist) 0) ;Is the list null? return 0
-	LPAREN_T        (
-	LPAREN_T        (
-	NULLP_T         null?
-	IDENT_T         mylist
-	RPAREN_T        )
-	NUMLIT_T        0
-	RPAREN_T        )
-  57:        	((number? (car mylist)) (+ (car mylist) (list_sum (cdr mylist))))
-	LPAREN_T        (
-	LPAREN_T        (
-	NUMBERP_T       number?
-	LPAREN_T        (
-	LISTOP_T        car
-	IDENT_T         mylist
-	RPAREN_T        )
-	RPAREN_T        )
-	LPAREN_T        (
-	PLUS_T          +
-	LPAREN_T        (
-	LISTOP_T        car
-	IDENT_T         mylist
-	RPAREN_T        )
-	LPAREN_T        (
-	IDENT_T         list_sum
-	LPAREN_T        (
-	LISTOP_T        cdr
-	IDENT_T         mylist
-	RPAREN_T        )
-	RPAREN_T        )
-	RPAREN_T        )
-	RPAREN_T        )
-  58: 	((list_sum (cdr mylist)))
-	LPAREN_T        (
-	LPAREN_T        (
-	IDENT_T         list_sum
-	LPAREN_T        (
-	LISTOP_T        cdr
-	IDENT_T         mylist
-	RPAREN_T        )
-	RPAREN_T        )
-	RPAREN_T        )
-Error at 58,26: Expeciting a first for Literal; saw)
-  59: 	)
-	RPAREN_T        )
-  60:   )
-	RPAREN_T        )
-  61: 
-  62: ;returns the last element of a list
-  63: (define (last mylist)
-	LPAREN_T        (
-	DEFINE_T        define
-Error at 63,7: Expecting a first for action; saw define
-	LPAREN_T        (
-Error at 63,9: Expecting ); saw (
-	IDENT_T         last
-	IDENT_T         mylist
-	RPAREN_T        )
-  64:   (cond ((not (list? mylist)) 'last_requires_a_list_as_an_arg)
-	LPAREN_T        (
-	COND_T          cond
-Error at 64,7: Expecting "define"; sawcond
-	LPAREN_T        (
-	LPAREN_T        (
-Error at 64,10: Expecting identifiers; saw (
-	NOT_T           not
-Error at 64,13: Unexpected Token; saw not
-	LPAREN_T        (
-Error at 64,15: Expecting ")"; saw (
-	LISTP_T         list?
-Error at 64,20: Expeciting a first for Literal; sawlist?
-	IDENT_T         mylist
-	RPAREN_T        )
-	RPAREN_T        )
-Error at 64,29: Unexpected Token; saw )
-Error at 64,29: Missing end of file at end of program
-10 errors found in input file
+0 errors found in input file
