@@ -1,5 +1,0 @@
-Input file: test.ss
-   1: (define (main)
-   2:   (display "Hello")
-   3:   )
-0 errors found in input file

@@ -10,8 +10,3 @@ Input file: testCases/H4-1-10.ss
    9: 	(display (reciprocal 7)) (newline)
   10: 	(display (reciprocal (/ 1 7))) (newline)
   11: 	(display (reciprocal .7)) (newline)
-  12: 	(display (reciprocal 7.7)) (newline)
-  13: 	(display (reciprocal (/ 50 7))) (newline)
-  14: 	(display (reciprocal "Hello World")) (newline)
-  15: )
-0 errors found in input file

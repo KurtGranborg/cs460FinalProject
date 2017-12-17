@@ -32,6 +32,12 @@ submit : Project3.cpp LexicalAnalyzer.h LexicalAnalyzer.cpp SyntacticalAnalyzer.
 	cp LexicalAnalyzer.cpp TeamJECKP3
 	cp SyntacticalAnalyzer.h TeamJECKP3
 	cp SyntacticalAnalyzer.cpp TeamJECKP3
+	cp CodeGenerator.cpp TeamJECKP3
+	cp CodeGenerator.h TeamJECKP3
+	cp Object.cpp TeamJECKP3
+	cp Object.h TeamJECKP3
+	cp SetLimits.c TeamJECKP3
+	cp SetLimits.h TeamJECKP3
 	cp makefile TeamJECKP3
 	cp README.txt TeamJECKP3
 	tar cfvz TeamJECKP3.tgz TeamJECKP3

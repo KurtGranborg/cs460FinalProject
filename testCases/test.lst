@@ -1,0 +1,53 @@
+Input file: testCases/test.ss
+   1: (define (cond_ex_1 choice value)
+   2:     (cond ((= choice 1) value)
+   3:       ((= choice 2) (* value value))
+   4:       ((= choice 3) (if (= value 0)
+   5:                 "Division by 0 not defined"
+   6:                 (/ 1 value)
+   7:             ))
+   8:       (0)
+   9:     )
+  10: )
+  11: 
+  12: (define (square n)
+  13:         (if (number? n)
+  14:         (* n n)
+  15:                 'invalid_parameter
+  16:         )
+  17: )
+  18: 
+  19: (define (reciprocal n)
+  20:         (if (and (number? n) (not (= n 0)))
+  21:                 (/ 1 n)
+  22:                 'invalid_parameter
+  23:         )
+  24: )
+  25: 
+  26: (define (cond_ex_2 choice value)
+  27:     (cond ((= choice 1) value)
+  28:       ((= choice 2) (square value))
+  29:       ((= choice 3) (reciprocal value))
+  30:       (0)
+  31:     )
+  32: )
+  33: 
+  34: (define (main)
+  35:     (display (cond_ex_1 1 5.0)) (newline)
+  36:     (display (cond_ex_1 1 -7.0)) (newline)
+  37:     (display (cond_ex_1 2 5.0)) (newline)
+  38:     (display (cond_ex_1 2 -7.0)) (newline)
+  39:     (display (cond_ex_1 3 5.0)) (newline)
+  40:     (display (cond_ex_1 3 -7.0)) (newline)
+  41:     (display (cond_ex_1 3 0)) (newline)
+  42:     (display (cond_ex_1 -1 5.0)) (newline)
+  43:     (display (cond_ex_2 1 5.0)) (newline)
+  44:     (display (cond_ex_2 1 -7.0)) (newline)
+  45:     (display (cond_ex_2 2 5.0)) (newline)
+  46:     (display (cond_ex_2 2 -7.0)) (newline)
+  47:     (display (cond_ex_2 3 5.0)) (newline)
+  48:     (display (cond_ex_2 3 -7.0)) (newline)
+  49:     (display (cond_ex_2 3 0)) (newline)
+  50:     (display (cond_ex_2 -1 5.0)) (newline)
+  51: )
+0 errors found in input file

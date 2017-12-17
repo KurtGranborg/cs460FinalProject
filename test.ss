@@ -1,8 +1,0 @@
-(define (main)
-	(display (+ "abc" "xyz"))
-	(newline)
-	(display (+ 12 5))
-	(newline)
-	(display (+ "abc" 5))
-	(newline)
-)
